@@ -1,13 +1,8 @@
-let hasStarted = 0
-let waitForInput = 0
 let sequence: number[] = []
+let hasStarted = 0
 let score = 0
+let waitForInput = 0
 let list: number[] = []
-input.onPinPressed(TouchPin.P0, function () {
-    if (hasStarted != 0 && waitForInput != 0) {
-        processInput(3)
-    }
-})
 function playSequence () {
     for (let index = 0; index <= sequence.length; index++) {
         basic.pause(300)
@@ -38,15 +33,6 @@ function playSequence () {
                 . . # . .
                 `)
         }
-        if (sequence[index] == 3) {
-            basic.showLeds(`
-                # . . . #
-                . # . # .
-                . . # . .
-                # # . # #
-                # # . # #
-                `)
-        }
         basic.pause(100)
         basic.clearScreen()
     }
@@ -69,6 +55,7 @@ function checkLastListItem () {
     return list[list.length - 1] == sequence[list.length - 1]
 }
 function gameOver () {
+    led.stopAnimation()
     waitForInput = 0
     basic.showIcon(IconNames.No)
     basic.pause(200)
@@ -109,7 +96,7 @@ basic.forever(function () {
         basic.showString("Press A to start")
     } else {
         if (waitForInput == 0) {
-            sequence.push(randint(0, 3))
+            sequence.push(randint(0, 2))
             playSequence()
             basic.clearScreen()
             list = []
